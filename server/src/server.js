@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 const healthRoutes = require("./routes/healthRoutes");
 const authRoutes = require("./routes/authRoutes");
 const internRoutes = require("./routes/internRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
 connectDB();
@@ -20,6 +21,7 @@ console.log("authRoutes type:", typeof authRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/interns", internRoutes);
+app.use("/api/tasks", taskRoutes);
 
 
 const PORT = process.env.PORT || 5000;
