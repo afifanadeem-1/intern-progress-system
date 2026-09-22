@@ -177,11 +177,66 @@ const deleteTask = async (req, res) => {
         });
     }
 };
+const getMyTasks = async (req, res) => {
+    try {
+        const tasks = await Task.find({
+            assignedTo: req.user._id
+        })
+            .populate("assignedBy", "name email")
+            .sort({ deadline: 1 });
 
+        return res.status(200).json({
+            count: tasks.length,
+            tasks
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server error"
+        });
+    }
+};
+
+const startTask = async (req, res) => {
+    try {
+        const task = await Task.findOne({
+            _id: req.params.id,
+            assignedTo: req.user._id
+        });
+
+        if (!task) {
+            return res.status(404).json({
+                message: "Task not found or not assigned to you"
+            });
+        }
+
+        if (task.status !== "pending") {
+            return res.status(400).json({
+                message: "Only pending tasks can be started"
+            });
+        }
+
+        task.status = "in-progress";
+
+        await task.save();
+
+        return res.status(200).json({
+            message: "Task started successfully",
+            task
+        });
+
+    } catch (error) {
+        return res.status(400).json({
+            message: "Unable to start task"
+        });
+    }
+};
 module.exports = {
     createTask,
     getTasks,
     getTaskById,
     updateTask,
-    deleteTask
+    deleteTask,
+    getMyTasks,
+    startTask
 };
