@@ -34,10 +34,29 @@ const submitTask = async (req, res) => {
         });
 
         if (existingSubmission) {
-            return res.status(400).json({
-                message: "Task has already been submitted"
-            });
-        }
+    if (existingSubmission.reviewStatus !== "revision-required") {
+        return res.status(400).json({
+            message: "Task has already been submitted"
+        });
+    }
+
+    existingSubmission.submissionUrl = submissionUrl;
+    existingSubmission.notes = notes;
+    existingSubmission.reviewStatus = "pending";
+    existingSubmission.feedback = "";
+    existingSubmission.reviewedBy = undefined;
+    existingSubmission.submittedAt = new Date();
+
+    await existingSubmission.save();
+
+    task.status = "submitted";
+    await task.save();
+
+    return res.status(200).json({
+        message: "Task resubmitted successfully",
+        submission: existingSubmission
+    });
+}
 
         const submission = await Submission.create({
             task: task._id,
