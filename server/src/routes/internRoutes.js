@@ -7,6 +7,10 @@ const {
     updateIntern,
     deleteIntern
 } = require("../controllers/internController");
+const {
+    getInternProgress,
+    getMyProgress
+} = require("../controllers/progressController");
 const { 
     protect, 
     authorize 
@@ -26,6 +30,18 @@ router.get(
     protect,
     authorize("admin"),
     getInterns
+);
+router.get(
+    "/me/progress",
+    protect,
+    authorize("intern"),
+    getMyProgress
+);
+router.get(
+    "/:id/progress",
+    protect,
+    authorize("admin"),
+    getInternProgress
 );
 
 router.get(
