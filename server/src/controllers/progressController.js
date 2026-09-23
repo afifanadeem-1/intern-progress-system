@@ -1,7 +1,7 @@
 const Task = require("../models/Task");
 const User = require("../models/User");
 
-const getInternProgress = async (req, res) => {
+const getInternProgress = async (req, res,next) => {
     try {
         const intern = await User.findOne({
             _id: req.params.id,
@@ -59,12 +59,10 @@ const getInternProgress = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Unable to retrieve intern progress"
-        });
+        next(error);
     }
 };
-const getMyProgress = async (req, res) => {
+const getMyProgress = async (req, res,next) => {
     try {
         const tasks = await Task.find({
             assignedTo: req.user._id
@@ -105,9 +103,7 @@ const getMyProgress = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
 module.exports = {

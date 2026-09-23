@@ -1,10 +1,28 @@
 const express = require("express");
-const { loginUser } = require("../controllers/authController");
+const { loginUser, registerIntern } = require("../controllers/authController");
 const { protect,authorize } = require("../middleware/authMiddleware");
+const {
+    validateLogin, validateRegister
+} = require("../validators/authValidator");
+
+const {
+    validateRequest
+} = require("../middleware/validationMiddleware");
 
 const router = express.Router();
 
-router.post("/login", loginUser);
+router.post(
+    "/login",
+    validateLogin,
+    validateRequest,
+    loginUser
+);
+router.post(
+    "/register",
+    validateRegister,
+    validateRequest,
+    registerIntern
+);
 
 router.get("/me", protect, (req, res) => {
     return res.status(200).json({

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API_URL from "../config/api";
 
 function MyTaskList() {
     const [tasks, setTasks] = useState([]);
@@ -16,7 +17,7 @@ function MyTaskList() {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:5000/api/tasks/my-tasks",
+                    `${API_URL}/api/tasks/my-tasks`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -50,7 +51,7 @@ const handleStartTask = async (taskId) => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/tasks/${taskId}/start`,
+            `${API_URL}/api/tasks/${taskId}/start`,
             {
                 method: "PATCH",
                 headers: {
@@ -101,7 +102,7 @@ const handleSubmitWork = async (event) => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/tasks/${submittingTask._id}/submit`,
+            `${API_URL}/api/tasks/${submittingTask._id}/submit`,
             {
                 method: "POST",
                 headers: {
@@ -148,7 +149,7 @@ const handleViewSubmission = async (taskId) => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/tasks/${taskId}/submission`,
+            `${API_URL}/api/tasks/${taskId}/submission`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`

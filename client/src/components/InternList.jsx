@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import API_URL from "../config/api";
 
-function InternList({refreshInterns}) {
+function InternList() {
     const [interns, setInterns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -12,7 +13,7 @@ function InternList({refreshInterns}) {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:5000/api/interns",
+                    `${API_URL}/api/interns`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -37,7 +38,7 @@ function InternList({refreshInterns}) {
         };
 
         fetchInterns();
-    }, [refreshInterns]);
+    }, []);
 
     if (loading) {
         return <p>Loading interns...</p>;
@@ -60,7 +61,7 @@ function InternList({refreshInterns}) {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/interns/${internId}`,
+            `${API_URL}/api/interns/${internId}`,
             {
                 method: "DELETE",
                 headers: {
@@ -95,7 +96,7 @@ const handleUpdate = async (event) => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/interns/${editingIntern._id}`,
+            `${API_URL}/api/interns/${editingIntern._id}`,
             {
                 method: "PUT",
                 headers: {

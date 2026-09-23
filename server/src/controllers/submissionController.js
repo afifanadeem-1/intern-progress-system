@@ -1,7 +1,7 @@
 const Task = require("../models/Task");
 const Submission = require("../models/Submission");
 
-const submitTask = async (req, res) => {
+const submitTask = async (req, res,next) => {
     try {
         const { submissionUrl, notes } = req.body;
 
@@ -74,12 +74,10 @@ const submitTask = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
-const getMySubmission = async (req, res) => {
+const getMySubmission = async (req, res, next) => {
     try {
         const submission = await Submission.findOne({
             task: req.params.id,
@@ -99,12 +97,10 @@ const getMySubmission = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Unable to retrieve submission"
-        });
+        next(error);
     }
 };
-const getSubmissions = async (req, res) => {
+const getSubmissions = async (req, res,next) => {
     try {
         const submissions = await Submission.find()
             .populate("task", "title description deadline status priority")
@@ -118,12 +114,10 @@ const getSubmissions = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
-const getSubmissionById = async (req, res) => {
+const getSubmissionById = async (req, res,next) => {
     try {
         const submission = await Submission.findById(req.params.id)
             .populate("task", "title description deadline status priority")
@@ -141,12 +135,10 @@ const getSubmissionById = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Invalid submission ID"
-        });
+        next(error);
     }
 };
-const reviewSubmission = async (req, res) => {
+const reviewSubmission = async (req, res,next) => {
     try {
         const { reviewStatus, feedback } = req.body;
 
@@ -204,9 +196,7 @@ const reviewSubmission = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
 

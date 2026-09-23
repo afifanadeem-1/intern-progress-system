@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API_URL from "../config/api";
 
 function CreateTaskForm({ onTaskCreated }) {
     const [title, setTitle] = useState("");
@@ -17,7 +18,7 @@ function CreateTaskForm({ onTaskCreated }) {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:5000/api/interns",
+                    `${API_URL}/api/interns`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -53,7 +54,7 @@ function CreateTaskForm({ onTaskCreated }) {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/tasks",
+                `${API_URL}/api/tasks`,
                 {
                     method: "POST",
                     headers: {

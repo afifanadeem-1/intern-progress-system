@@ -12,6 +12,7 @@ const authRoutes = require("./routes/authRoutes");
 const internRoutes = require("./routes/internRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const submissionRoutes = require("./routes/submissionRoutes");
+const { errorHandler } = require("./middleware/errorMiddleware");
 
 //Create Express app First
 const app = express();
@@ -19,7 +20,7 @@ const app = express();
 connectDB();
 //Middleware
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: process.env.CLIENT_URL
 }));
 
 app.use(express.json()); 
@@ -30,6 +31,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/interns", internRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/submissions", submissionRoutes);
+
+app.use(errorHandler);
 
 //Start server
 const PORT = process.env.PORT || 5000;

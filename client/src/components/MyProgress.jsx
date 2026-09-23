@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API_URL from "../config/api";
 
 function MyProgress() {
     const [progress, setProgress] = useState(null);
@@ -11,7 +12,7 @@ function MyProgress() {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:5000/api/interns/me/progress",
+                    `${API_URL}/api/interns/me/progress`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`

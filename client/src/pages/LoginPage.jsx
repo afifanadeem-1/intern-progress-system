@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";   
+import API_URL from "../config/api";
 
 function LoginPage() {
     const [email, setEmail] = useState("");
@@ -15,10 +16,8 @@ function LoginPage() {
         setLoading(true);
         setError("");
         
-        console.log("Email being sent:", JSON.stringify(email));
-        console.log("Password being sent:", JSON.stringify(password));
         const response = await fetch(
-            "http://localhost:5000/api/auth/login",
+            `${API_URL}/api/auth/login`,
             {
                 method: "POST",
                 headers: {
@@ -88,6 +87,10 @@ if (data.user.role === "admin") {
                     {loading? "Logging in ..":"Login"}
                 </button>
             </form>
+            <p>
+    Don't have an account?{" "}
+    <Link to="/register">Register</Link>
+</p>
         </div>
     );
 }

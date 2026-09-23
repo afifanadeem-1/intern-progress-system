@@ -3,6 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import InternDashboard from "./pages/InternDashboard";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
     return (
@@ -22,6 +23,10 @@ function App() {
                     <ProtectedRoute allowedRole="admin">
                     <AdminDashboard />
                     </ProtectedRoute>}
+                />
+                <Route
+                     path="/register"
+                     element={<RegisterPage />}
                 />
                 <Route
     path="/intern"

@@ -1,6 +1,8 @@
 const User = require("../models/User");
+const Task = require("../models/Task");
+const Submission = require("../models/Submission");
 
-const createIntern = async (req, res) => {
+const createIntern = async (req, res, next) => {
     try {
         const { name, email, password, department } = req.body;
 
@@ -40,12 +42,10 @@ const createIntern = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
-const getInterns = async (req, res) => {
+const getInterns = async (req, res,next) => {
     try {
         const interns = await User.find({
             role: "intern"
@@ -57,12 +57,10 @@ const getInterns = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
-const getInternById = async (req, res) => {
+const getInternById = async (req, res,next) => {
     try {
         const intern = await User.findOne({
             _id: req.params.id,
@@ -80,12 +78,10 @@ const getInternById = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Invalid intern ID"
-        });
+        next(error);
     }
 };
-const updateIntern = async (req, res) => {
+const updateIntern = async (req, res, next) => {
     try {
         const intern = await User.findOne({
             _id: req.params.id,
@@ -124,12 +120,10 @@ const updateIntern = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Unable to update intern"
-        });
+        next(error);
     }
 };
-const deleteIntern = async (req, res) => {
+const deleteIntern = async (req, res, next) => {
     try {
         const intern = await User.findOne({
             _id: req.params.id,
@@ -142,6 +136,21 @@ const deleteIntern = async (req, res) => {
             });
         }
 
+        const taskCount = await Task.countDocuments({
+            assignedTo: intern._id
+        });
+
+        const submissionCount = await Submission.countDocuments({
+            intern: intern._id
+        });
+
+        if (taskCount > 0 || submissionCount > 0) {
+            return res.status(409).json({
+                message:
+                    "Cannot delete intern with existing tasks or submissions"
+            });
+        }
+
         await intern.deleteOne();
 
         return res.status(200).json({
@@ -149,9 +158,7 @@ const deleteIntern = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Unable to delete intern"
-        });
+        next(error);
     }
 };
 

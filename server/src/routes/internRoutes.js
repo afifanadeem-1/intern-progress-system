@@ -1,7 +1,6 @@
 const express = require("express");
 
 const { 
-    createIntern,
     getInterns,
     getInternById,
     updateIntern,
@@ -15,16 +14,25 @@ const {
     protect, 
     authorize 
 } = require("../middleware/authMiddleware");
+const {
+    validateUpdateIntern
+} = require("../validators/internValidator");
+
+const {
+    validateRequest
+} = require("../middleware/validationMiddleware");
 
 
 const router = express.Router();
 
-router.post(
+/* router.post(
     "/",
     protect,
     authorize("admin"),
+    validateCreateIntern,
+    validateRequest,
     createIntern
-);
+); */
 router.get(
     "/",
     protect,
@@ -55,6 +63,8 @@ router.put(
     "/:id",
     protect,
     authorize("admin"),
+    validateUpdateIntern,
+    validateRequest,
     updateIntern
 );
 router.delete(

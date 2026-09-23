@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API_URL from "../config/api";
 
 function TaskList({refreshTasks}) {
     const [tasks, setTasks] = useState([]);
@@ -13,7 +14,7 @@ function TaskList({refreshTasks}) {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:5000/api/tasks",
+                    `${API_URL}/api/tasks`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -44,7 +45,7 @@ function TaskList({refreshTasks}) {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            "http://localhost:5000/api/interns",
+            `${API_URL}/api/interns`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -91,7 +92,7 @@ fetchInterns();
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/tasks/${taskId}`,
+            `${API_URL}/api/tasks/${taskId}`,
             {
                 method: "DELETE",
                 headers: {
@@ -125,7 +126,7 @@ const handleUpdate = async (event) => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/tasks/${editingTask._id}`,
+            `${API_URL}/api/tasks/${editingTask._id}`,
             {
                 method: "PUT",
                 headers: {
@@ -138,7 +139,7 @@ const handleUpdate = async (event) => {
                     assignedTo: editingTask.assignedTo,
                     deadline: editingTask.deadline,
                     priority: editingTask.priority,
-                    status: editingTask.status
+                  //  status: editingTask.status
                 })
             }
         );

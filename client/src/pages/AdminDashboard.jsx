@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InternList from "../components/InternList";
-import CreateInternForm from "../components/CreateInternForm";
 import TaskList from "../components/TaskList";
 import CreateTaskForm from "../components/CreateTaskForm";
 import SubmissionList from "../components/SubmissionList";
@@ -9,7 +8,7 @@ import SubmissionList from "../components/SubmissionList";
 function AdminDashboard() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
-    const [refreshInterns, setRefreshInterns] = useState(0);
+    //const [refreshInterns, setRefreshInterns] = useState(0);
     const [refreshTasks, setRefreshTasks] = useState(0);
 
     const handleLogout = () => {
@@ -46,13 +45,9 @@ function AdminDashboard() {
                 <p>
                     Manage interns, tasks, submissions and progress.
                 </p>
-                <InternList refreshInterns={refreshInterns} />
 
-                <CreateInternForm
-                    onInternCreated={() => {
-                    setRefreshInterns((previous) => previous + 1);
-                 }} 
-                />
+                <InternList />
+
                 <TaskList refreshTasks={refreshTasks} />
 
                 <CreateTaskForm

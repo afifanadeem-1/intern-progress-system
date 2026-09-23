@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_URL from "../config/api";
 
 function CreateInternForm({onInternCreated}) {
     const [name, setName] = useState("");
@@ -18,7 +19,7 @@ function CreateInternForm({onInternCreated}) {
             const token = localStorage.getItem("token");
 
             const response = await fetch(
-                "http://localhost:5000/api/interns",
+                `${API_URL}/api/interns`,
                 {
                     method: "POST",
                     headers: {

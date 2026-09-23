@@ -1,10 +1,26 @@
 const express = require("express");
 
-const { createTask, getTasks, getTaskById,updateTask, deleteTask, getMyTasks, startTask } = require("../controllers/taskController");
+const { createTask, 
+        getTasks, 
+        getTaskById,
+        updateTask, 
+        deleteTask, 
+        getMyTasks, 
+        startTask 
+} = require("../controllers/taskController");
 const {
     submitTask,
     getMySubmission
 } = require("../controllers/submissionController");
+
+const {
+    validateCreateTask,
+    validateUpdateTask
+} = require("../validators/taskValidator");
+
+const {
+    validateRequest
+} = require("../middleware/validationMiddleware");
 
 const {
     protect,
@@ -17,12 +33,15 @@ router.post(
     "/",
     protect,
     authorize("admin"),
+    validateCreateTask,
+    validateRequest,
     createTask
 );
 router.get(
     "/",
     protect,
     authorize("admin"),
+    
     getTasks
 );
 
@@ -62,6 +81,8 @@ router.put(
     "/:id",
     protect,
     authorize("admin"),
+    validateUpdateTask,
+    validateRequest,
     updateTask
 );
 router.delete(

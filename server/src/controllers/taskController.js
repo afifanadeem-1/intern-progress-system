@@ -1,7 +1,8 @@
 const Task = require("../models/Task");
 const User = require("../models/User");
+const Submission = require("../models/Submission");
 
-const createTask = async (req, res) => {
+const createTask = async (req, res, next) => {
     try {
         const {
             title,
@@ -43,12 +44,10 @@ const createTask = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
-const getTasks = async (req, res) => {
+const getTasks = async (req, res,next) => {
     try {
         const tasks = await Task.find()
             .populate("assignedTo", "name email department")
@@ -60,12 +59,10 @@ const getTasks = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
-const getTaskById = async (req, res) => {
+const getTaskById = async (req, res,next) => {
     try {
         const task = await Task.findById(req.params.id)
             .populate("assignedTo", "name email department")
@@ -82,12 +79,10 @@ const getTaskById = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Invalid task ID"
-        });
+        next(error);
     }
 };
-const updateTask = async (req, res) => {
+const updateTask = async (req, res,next) => {
     try {
         const task = await Task.findById(req.params.id);
 
@@ -113,9 +108,9 @@ const updateTask = async (req, res) => {
             task.priority = req.body.priority;
         }
 
-        if (req.body.status !== undefined) {
-            task.status = req.body.status;
-        }
+       // if (req.body.status !== undefined) {
+         //   task.status = req.body.status;
+        //}
 
         if (req.body.assignedTo !== undefined) {
             const intern = await User.findOne({
@@ -150,18 +145,27 @@ const updateTask = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Unable to update task"
-        });
+        next(error);
     }
 };
-const deleteTask = async (req, res) => {
+const deleteTask = async (req, res,next) => {
     try {
         const task = await Task.findById(req.params.id);
 
         if (!task) {
             return res.status(404).json({
                 message: "Task not found"
+            });
+        }
+
+        const submissionExists = await Submission.exists({
+            task: task._id
+        });
+
+        if (submissionExists) {
+            return res.status(409).json({
+                message:
+                    "Cannot delete a task that has a submission"
             });
         }
 
@@ -172,12 +176,10 @@ const deleteTask = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Unable to delete task"
-        });
+        next(error);
     }
 };
-const getMyTasks = async (req, res) => {
+const getMyTasks = async (req, res,next) => {
     try {
         const tasks = await Task.find({
             assignedTo: req.user._id
@@ -191,13 +193,11 @@ const getMyTasks = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Server error"
-        });
+        next(error);
     }
 };
 
-const startTask = async (req, res) => {
+const startTask = async (req, res,next) => {
     try {
         const task = await Task.findOne({
             _id: req.params.id,
@@ -226,9 +226,7 @@ const startTask = async (req, res) => {
         });
 
     } catch (error) {
-        return res.status(400).json({
-            message: "Unable to start task"
-        });
+        next(error);
     }
 };
 module.exports = {

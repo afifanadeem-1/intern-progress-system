@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API_URL from "../config/api";
 
 function SubmissionList() {
     const [submissions, setSubmissions] = useState([]);
@@ -12,7 +13,7 @@ function SubmissionList() {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:5000/api/submissions",
+                    `${API_URL}/api/submissions`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -59,7 +60,7 @@ const handleReview = async (reviewStatus) => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:5000/api/submissions/${selectedSubmission._id}/review`,
+            `${API_URL}/api/submissions/${selectedSubmission._id}/review`,
             {
                 method: "PATCH",
                 headers: {
