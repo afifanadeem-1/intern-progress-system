@@ -31,7 +31,8 @@ jobs:
 
       - name: Build frontend
         run: npm run build
-      backend:
+
+  backend:
     name: Backend Tests
     runs-on: ubuntu-latest
 
