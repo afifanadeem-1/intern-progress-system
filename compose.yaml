@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: ./server
+    container_name: intern-progress-server
+    env_file:
+      - ./server/.env
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./client
+      args:
+        VITE_API_URL: http://localhost:5000
+    container_name: intern-progress-client
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
