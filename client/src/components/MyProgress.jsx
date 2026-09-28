@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API_URL from "../config/api";
+import "./MyProgress.css";
 
 function MyProgress() {
     const [progress, setProgress] = useState(null);
@@ -41,50 +42,130 @@ function MyProgress() {
     }, []);
 
     if (loading) {
-        return <p>Loading progress...</p>;
+        return (
+            <div className="progress-state">
+                Loading progress...
+            </div>
+        );
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return (
+            <div className="progress-state progress-error">
+                {error}
+            </div>
+        );
     }
 
     if (!progress) {
-        return <p>Progress information unavailable.</p>;
+        return (
+            <div className="progress-state">
+                Progress information unavailable.
+            </div>
+        );
     }
 
+    const percentage = Math.min(
+        100,
+        Math.max(0, progress.progressPercentage || 0)
+    );
+
     return (
-        <div>
-            <h2>My Progress</h2>
+        <div className="progress-card">
 
-            <p>
-                <strong>Total Tasks:</strong>{" "}
-                {progress.totalTasks}
-            </p>
+            <div className="progress-overview">
 
-            <p>
-                <strong>Completed:</strong>{" "}
-                {progress.completedTasks}
-            </p>
+                <div
+    className="progress-wheel"
+    style={{
+        "--progress": `${percentage * 3.6}deg`
+    }}
+>
+                    <div className="progress-wheel-inner">
+                        <strong>{percentage}%</strong>
+                        <span>Completed</span>
+                    </div>
+                </div>
 
-            <p>
-                <strong>In Progress:</strong>{" "}
-                {progress.inProgressTasks}
-            </p>
+                <div className="progress-summary">
+                    <span className="progress-summary-label">
+                        OVERALL PROGRESS
+                    </span>
 
-            <p>
-                <strong>Pending:</strong>{" "}
-                {progress.pendingTasks}
-            </p>
+                    <h4>
+                        {progress.completedTasks} of{" "}
+                        {progress.totalTasks} tasks completed
+                    </h4>
 
-            <p>
-                <strong>Submitted:</strong>{" "}
-                {progress.submittedTasks}
-            </p>
+                    <p>
+                        Keep working through your assigned tasks.
+                        Your progress updates as tasks are completed.
+                    </p>
+                </div>
 
-            <p>
-                <strong>Overall Progress:</strong>{" "}
-                {progress.progressPercentage}%
-            </p>
+            </div>
+
+            <div className="progress-divider" />
+
+            <div className="progress-stats">
+
+                <div className="progress-stat">
+                    <div className="stat-icon stat-total">
+                        T
+                    </div>
+
+                    <div>
+                        <span>Total Tasks</span>
+                        <strong>{progress.totalTasks}</strong>
+                    </div>
+                </div>
+
+                <div className="progress-stat">
+                    <div className="stat-icon stat-completed">
+                        ✓
+                    </div>
+
+                    <div>
+                        <span>Completed</span>
+                        <strong>{progress.completedTasks}</strong>
+                    </div>
+                </div>
+
+                <div className="progress-stat">
+                    <div className="stat-icon stat-progress">
+                        ↗
+                    </div>
+
+                    <div>
+                        <span>In Progress</span>
+                        <strong>{progress.inProgressTasks}</strong>
+                    </div>
+                </div>
+
+                <div className="progress-stat">
+                    <div className="stat-icon stat-submitted">
+                        ↑
+                    </div>
+
+                    <div>
+                        <span>Submitted</span>
+                        <strong>{progress.submittedTasks}</strong>
+                    </div>
+                </div>
+
+                <div className="progress-stat">
+                    <div className="stat-icon stat-pending">
+                        ○
+                    </div>
+
+                    <div>
+                        <span>Pending</span>
+                        <strong>{progress.pendingTasks}</strong>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     );
 }

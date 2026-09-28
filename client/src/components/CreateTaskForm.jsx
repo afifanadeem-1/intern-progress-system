@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API_URL from "../config/api";
 
-function CreateTaskForm({ onTaskCreated }) {
+function CreateTaskForm({ onTaskCreated, onCancel }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [assignedTo, setAssignedTo] = useState("");
@@ -9,7 +9,6 @@ function CreateTaskForm({ onTaskCreated }) {
     const [priority, setPriority] = useState("medium");
 
     const [interns, setInterns] = useState([]);
-    const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -49,7 +48,7 @@ function CreateTaskForm({ onTaskCreated }) {
 
         try {
             setError("");
-            setMessage("");
+            
 
             const token = localStorage.getItem("token");
 
@@ -79,7 +78,7 @@ function CreateTaskForm({ onTaskCreated }) {
                 );
             }
 
-            setMessage("Task created successfully");
+            
 
             setTitle("");
             setDescription("");
@@ -96,7 +95,20 @@ function CreateTaskForm({ onTaskCreated }) {
 
     return (
         <div>
-            <h2>Create Task</h2>
+            <div className="task-form-header">
+    <div>
+        <h3>Create Task</h3>
+        <p>Assign a new task to an intern.</p>
+    </div>
+
+    <button
+        type="button"
+        className="modal-close"
+        onClick={onCancel}
+    >
+        ×
+    </button>
+</div>
 
             <form onSubmit={handleSubmit}>
                 <div>
@@ -174,12 +186,24 @@ function CreateTaskForm({ onTaskCreated }) {
                     </select>
                 </div>
 
-                <button type="submit">
-                    Create Task
-                </button>
+                <div className="modal-actions">
+    <button
+        type="button"
+        className="cancel-button"
+        onClick={onCancel}
+    >
+        Cancel
+    </button>
+
+    <button
+        type="submit"
+        className="save-button"
+    >
+        Create Task
+    </button>
+</div>
             </form>
 
-            {message && <p>{message}</p>}
             {error && <p>{error}</p>}
         </div>
     );

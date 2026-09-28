@@ -111,12 +111,12 @@ const updateIntern = async (req, res, next) => {
         return res.status(200).json({
             message: "Intern updated successfully",
             intern: {
-                id: updatedIntern._id,
-                name: updatedIntern.name,
-                email: updatedIntern.email,
-                department: updatedIntern.department,
-                role: updatedIntern.role
-            }
+    _id: updatedIntern._id,
+    name: updatedIntern.name,
+    email: updatedIntern.email,
+    department: updatedIntern.department,
+    role: updatedIntern.role
+}
         });
 
     } catch (error) {

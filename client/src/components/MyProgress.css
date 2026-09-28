@@ -1,0 +1,343 @@
+/* ========================================
+   PROGRESS CARD
+======================================== */
+
+@property --progress {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.progress-card {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) auto minmax(420px, 1.5fr);
+    align-items: center;
+
+    gap: 32px;
+
+    padding: 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+}
+
+
+/* ========================================
+   PROGRESS OVERVIEW
+======================================== */
+
+.progress-overview {
+    display: flex;
+    align-items: center;
+
+    gap: 24px;
+}
+
+
+/* ========================================
+   PROGRESS WHEEL
+======================================== */
+
+.progress-wheel {
+    width: 140px;
+    height: 140px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            #2563eb 0deg,
+            #2563eb var(--progress),
+            #e2e8f0 var(--progress),
+            #e2e8f0 360deg
+        );
+
+    position: relative;
+
+    animation: fillProgress 1.2s ease-out forwards;
+}
+@keyframes fillProgress {
+    from {
+        --progress: 0deg;
+    }
+}
+
+.progress-wheel::after {
+    content: "";
+
+    position: absolute;
+
+    width: 108px;
+    height: 108px;
+
+    background: #ffffff;
+
+    border-radius: 50%;
+}
+
+.progress-wheel-inner {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.progress-wheel-inner strong {
+    color: #0f172a;
+
+    font-size: 27px;
+    line-height: 1;
+}
+
+.progress-wheel-inner span {
+    margin-top: 7px;
+
+    color: #64748b;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* ========================================
+   SUMMARY
+======================================== */
+
+.progress-summary {
+    min-width: 0;
+}
+
+.progress-summary-label {
+    color: #2563eb;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+}
+
+.progress-summary h4 {
+    margin: 7px 0 8px;
+
+    color: #0f172a;
+
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.progress-summary p {
+    max-width: 300px;
+
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   DIVIDER
+======================================== */
+
+.progress-divider {
+    width: 1px;
+    height: 125px;
+
+    background: #e2e8f0;
+}
+
+
+/* ========================================
+   STAT GRID
+======================================== */
+
+.progress-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+
+    gap: 14px;
+}
+
+.progress-stat {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-height: 72px;
+    padding: 13px 15px;
+
+    background: #f8fafc;
+
+    border: 1px solid #f1f5f9;
+    border-radius: 11px;
+}
+
+.progress-stat:last-child {
+    grid-column: 1 / -1;
+}
+
+.progress-stat > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.progress-stat span {
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.progress-stat strong {
+    color: #0f172a;
+
+    font-size: 20px;
+}
+
+
+/* ========================================
+   STAT ICONS
+======================================== */
+
+.stat-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.stat-total {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.stat-completed {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.stat-progress {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.stat-submitted {
+    background: #f5f3ff;
+    color: #7c3aed;
+}
+
+.stat-pending {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+
+/* ========================================
+   LOADING / ERROR
+======================================== */
+
+.progress-state {
+    padding: 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+.progress-error {
+    color: #dc2626;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1050px) {
+
+    .progress-card {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .progress-summary p {
+        max-width: 450px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .progress-card {
+        padding: 22px;
+    }
+
+    .progress-overview {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .progress-summary p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .progress-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-stat:last-child {
+        grid-column: auto;
+    }
+
+    .progress-wheel {
+        width: 130px;
+        height: 130px;
+    }
+
+    .progress-wheel::after {
+        width: 100px;
+        height: 100px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .progress-wheel {
+        animation: none;
+    }
+}

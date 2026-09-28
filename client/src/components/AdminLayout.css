@@ -1,0 +1,125 @@
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+/* Sidebar */
+
+.admin-sidebar {
+    width: 240px;
+    background: #0f172a;
+    color: white;
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.sidebar-brand {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-nav a {
+    width: 100%;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #cbd5e1;
+    text-align: left;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.sidebar-nav a:hover {
+    background: #1e293b;
+    color: white;
+}
+
+.sidebar-nav a.active {
+    background: #2563eb;
+    color: white;
+}
+
+.logout-button {
+    margin-top: auto;
+    padding: 12px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: transparent;
+    color: #cbd5e1;
+}
+
+.logout-button:hover {
+    background: #1e293b;
+    color: white;
+}
+
+/* Main area */
+
+.admin-main {
+    flex: 1;
+    margin-left: 240px;
+    min-width: 0;
+}
+
+.admin-header {
+    height: 72px;
+    padding: 0 32px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.admin-user {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.admin-user-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.admin-user-role {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.admin-content {
+    padding: 32px;
+}
+
+.admin-content-heading {
+    margin-bottom: 28px;
+}
+
+.admin-content-heading h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.admin-content-heading p {
+    color: #64748b;
+}
